@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+      }
+
+      body {
+        background: #f5f5f5;
+      }
+
+      .app-container {
+        width: 100%;
+        min-height: 100vh;
+        background: #ece4d9;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        background: #ece4d9;
+        top: 0;
+      }
+
+      .title-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .game-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        color: #4f391a;
+      }
+
+      .search-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ffd8d8;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .search-icon {
+        color: #ff6b6b;
+        width: 20px;
+        height: 20px;
+      }
+
+      .content-container {
+        background: #eed9bb;
+        border-top-left-radius: 40px;
+        border-top-right-radius: 40px;
+        padding: 24px 0;
+        min-height: calc(100vh - 72px);
+      }
+
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 16px;
+        padding: 0 24px 24px 24px;
+        width: 100%;
+      }
+
+      .game-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transform: translateY(0);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+      }
+
+      .game-link:hover {
+        transform: translateY(-4px);
+      }
+
+      .game-link:active {
+        transform: translateY(0);
+      }
+
+      .game-card {
+        aspect-ratio: 1;
+        border-radius: 16px;
+        border: 2px solid #000;
+        overflow: hidden;
+        position: relative;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.2s ease;
+        width: 100%;
+      }
+
+      .game-link:hover .game-card {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      }
+
+      .game-link:active .game-card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .game-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .game-title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+        color: white;
+        padding: 16px;
+        z-index: 2;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          1px 1px 0 #000;
+      }
+
+      .game-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+        pointer-events: none;
+      }
+
+      /* Responsive breakpoints */
+      @media (min-width: 700px) {
+        .game-icon {
+          width: 32px;
+          height: 32px;
+        }
+
+        .header h1 {
+          font-size: 32px;
+        }
+
+        .header {
+          background: #eed9bb;
+          border-top-left-radius: 40px;
+          border-top-right-radius: 40px;
+        }
+
+        .content-container {
+          border-radius: 0;
+        }
+
+        .games-grid {
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 24px;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .games-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 32px;
+          padding: 0 32px 32px 32px;
+        }
+
+        .header {
+          padding: 16px 32px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .games-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          padding: 0 12px 24px 12px;
+        }
+
+        .header {
+          padding: 16px 12px;
+        }
+
+        .game-title {
+          font-size: 12px;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="header">
+        <div class="title-container">
+          <svg
+            class="game-icon"
+            width="22"
+            height="16"
+            viewBox="0 0 22 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 0C19.3137 0 22 2.68629 22 6V10C22 13.3137 19.3137 16 16 16H6C2.68629 16 0 13.3137 0 10V6C0 2.68629 2.68629 0 6 0H16ZM9 5H7V7H5V9H6.999L7 11H9L8.999 9H11V7H9V5ZM17 9H15V11H17V9ZM15 5H13V7H15V5Z"
+              fill="#4F391A"
+            />
+          </svg>
+          <h1>Books</h1>
+        </div>
+      </div>
+
+      <div class="content-container">
+        <div class="games-grid">
+          <a href="./books/heyzine-flipbook/index.html" class="game-link">
+            <div class="game-card">
+              <img
+                src="/api/placeholder/200/200"
+                alt="Flip Books"
+                class="game-thumbnail"
+              />
+              <div class="game-title">Flip Book</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
